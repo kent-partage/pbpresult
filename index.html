@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>P.Bパルタージェ 試合結果集計</title>
-    <!-- Tailwind CSS CDNを読み込み -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Interフォントをボディ全体に適用 */
@@ -30,7 +29,6 @@
     </style>
 </head>
 <body class="bg-gray-100 p-4 sm:p-8 flex justify-center items-start min-h-screen">
-    <!-- アプリケーションのメインコンテナ -->
     <div class="container bg-white rounded-lg shadow-xl p-6 sm:p-10 w-full max-w-4xl">
         <header class="text-center mb-8">
             <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-700 mb-2">P.Bパルタージェ 試合結果・得点者集計</h1>
@@ -38,11 +36,9 @@
         </header>
 
         <main>
-            <!-- 試合結果入力セクション -->
             <section id="input-section" class="mb-10 p-6 border border-gray-200 rounded-lg bg-blue-50">
                 <h2 class="text-2xl font-bold text-blue-600 mb-5" id="form-title">試合結果入力</h2>
                 <form id="match-input-form" class="space-y-4">
-                    <!-- 修正中の試合IDを保持するための隠しフィールド -->
                     <input type="hidden" id="editing-match-id">
 
                     <div>
@@ -54,8 +50,7 @@
                         <label for="opponent-team" class="block text-gray-700 text-sm font-semibold mb-1">対戦チーム名:</label>
                         <select id="opponent-team" class="form-select w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
                             <option value="">選択してください</option>
-                            <!-- JavaScriptで対戦チーム名が挿入されます -->
-                        </select>
+                            </select>
                     </div>
 
                     <div>
@@ -63,7 +58,7 @@
                         <select id="match-type" class="form-select w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required>
                             <option value="">選択してください</option>
                             <option value="league">リーグ戦</option>
-                            <option value="championship">選手権</option> <!-- 公式戦から選手権に変更 -->
+                            <option value="championship">選手権</option>
                         </select>
                     </div>
 
@@ -79,19 +74,8 @@
                     </div>
 
                     <div id="scorer-input-area" class="space-y-3 p-4 border border-blue-200 rounded-md bg-blue-100">
-                        <label class="block text-gray-700 text-sm font-semibold mb-2">得点者 (複数選択可):</label>
-                        <!-- 初期得点者選択プルダウン要素 -->
-                        <div class="scorer-entry flex items-center space-x-2">
-                            <select class="scorer-select form-select flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                <option value="">選択してください</option>
-                                <!-- JavaScriptで選手名が挿入されます -->
-                            </select>
-                            <!-- 最初のプルダウンには削除ボタンは表示しない (hiddenクラス) -->
-                            <button type="button" class="remove-scorer-button text-red-600 hover:text-red-800 text-lg font-bold p-1 rounded-full focus:outline-none hidden">×</button>
-                        </div>
-                        <button type="button" id="add-scorer-button" class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                            得点者を追加
-                        </button>
+                        <label class="block text-gray-700 text-sm font-semibold mb-2">得点者:</label>
+                        <p id="scorer-placeholder" class="text-gray-500 text-sm">P.Bパルタージェの得点数を入力すると、得点者入力欄が表示されます。</p>
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4">
@@ -105,14 +89,12 @@
                 </form>
             </section>
 
-            <!-- 試合結果一覧セクション -->
             <section id="results-section" class="mb-10 p-6 border border-gray-200 rounded-lg bg-gray-50">
                 <h2 class="text-2xl font-bold text-gray-700 mb-5">試合結果一覧</h2>
                 <div class="filter-controls mb-4 flex items-center space-x-3">
                     <label for="year-filter" class="text-gray-700 text-sm font-semibold">表示年度:</label>
                     <select id="year-filter" class="form-select p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                        <!-- JavaScriptで年度が挿入されます -->
-                    </select>
+                        </select>
                 </div>
                 <div class="overflow-x-auto">
                     <table id="match-results-table" class="min-w-full bg-white border border-gray-300 rounded-lg shadow-sm">
@@ -128,14 +110,12 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <!-- 試合結果はJavaScriptで動的に挿入されます -->
                             <tr><td colspan="7" class="text-center py-4 text-gray-500">試合結果がありません。</td></tr>
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- 統計情報セクション -->
             <section id="stats-section" class="p-6 border border-gray-200 rounded-lg bg-purple-50">
                 <h2 class="text-2xl font-bold text-purple-600 mb-5">統計情報</h2>
 
@@ -150,7 +130,6 @@
 
                 <h3 class="text-xl font-semibold text-purple-700 mb-3">対戦チームとの勝率</h3>
                 <div id="win-rate-display" class="space-y-3 mb-8">
-                    <!-- 各対戦チームとの勝率がJavaScriptで動的に表示されます -->
                     <p class="text-gray-500">データがありません。</p>
                 </div>
 
@@ -164,7 +143,6 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
-                            <!-- 得点者ランキングがJavaScriptで動的に挿入されます -->
                             <tr><td colspan="2" class="text-center py-4 text-gray-500">得点データがありません。</td></tr>
                         </tbody>
                     </table>
@@ -184,24 +162,24 @@
             const formTitle = document.getElementById('form-title');
             const editingMatchIdInput = document.getElementById('editing-match-id');
             const matchDateInput = document.getElementById('match-date');
-            const opponentTeamSelect = document.getElementById('opponent-team'); // Selectに変更
+            const opponentTeamSelect = document.getElementById('opponent-team');
             const matchTypeSelect = document.getElementById('match-type');
             const pbScoreInput = document.getElementById('pb-score');
             const opponentScoreInput = document.getElementById('opponent-score');
             const scorerInputArea = document.getElementById('scorer-input-area');
-            const addScorerButton = document.getElementById('add-scorer-button');
+            const scorerPlaceholder = document.getElementById('scorer-placeholder'); // 追加
             const submitButton = document.getElementById('submit-button');
             const clearFormButton = document.getElementById('clear-form-button');
             const matchResultsTableBody = document.querySelector('#match-results-table tbody');
             const yearFilterSelect = document.getElementById('year-filter');
-            const statsMatchTypeFilter = document.getElementById('stats-match-type-filter'); // 統計用試合種類フィルター
+            const statsMatchTypeFilter = document.getElementById('stats-match-type-filter');
             const winRateDisplay = document.getElementById('win-rate-display');
             const scorerRankingsTableBody = document.querySelector('#scorer-rankings-table tbody');
 
             // アプリケーションデータ
             let matches = []; // 試合結果の配列
-            // 選手リスト
-            const players = ['トシキ', 'トモ', 'サワ', 'ヒロキ', 'ムラヤマ', 'ヒビキ', 'アベ', 'ケイジ', 'リュウジ', 'ノム', 'キタ', 'クボ', 'ヤマグチ', 'イトウ', 'タカヒト'];
+            // 選手リスト (更新)
+            const players = ['しょうちゃん', 'トモ', 'キタ', 'サワ', 'タカヒト', 'ヒロキ', 'ノム', 'トシキ', 'トモミ', 'ケイジ', 'クボ', 'イトウ', 'ケーヤ', 'コーヒ', 'リュウジ', 'ヤマグチ', 'ソラ', 'エンマ', 'ムラヤマ'];
             // 対戦チームリスト
             const opponentTeams = ['ニコちゃんズ　2部', 'TSC2020　2部', 'イスタンテ　2部', '武庫FC　2部', 'アランテス　2部', '協会　2部', 'トラッシュ　1部', 'FCリンドウ　1部', 'ドルフィンズ　1部', 'KSSOLFC　1部', 'FCサージ　1部', 'HIGH-BALL　1部', 'デスボア　1部'];
 
@@ -245,43 +223,35 @@
                 });
             };
 
-            // 得点者選択プルダウンを追加する関数
-            const addScorerDropdown = (initialValue = '') => {
-                const scorerEntryDiv = document.createElement('div');
-                scorerEntryDiv.className = 'scorer-entry flex items-center space-x-2';
+            // 得点数に応じて得点者プルダウンを生成・更新する関数
+            const updateScorerDropdowns = (count, currentScorers = []) => {
+                scorerInputArea.innerHTML = ''; // 既存の得点者入力欄をクリア
 
-                const newScorerSelect = document.createElement('select');
-                newScorerSelect.className = 'scorer-select form-select flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400';
-                populatePlayerDropdownsForSingleSelect(newScorerSelect);
-                newScorerSelect.value = initialValue;
+                if (count > 0) {
+                    scorerPlaceholder.classList.add('hidden'); // プレースホルダーを非表示
+                } else {
+                    scorerPlaceholder.classList.remove('hidden'); // プレースホルダーを表示
+                }
 
-                const removeButton = document.createElement('button');
-                removeButton.type = 'button';
-                removeButton.className = 'remove-scorer-button text-red-600 hover:text-red-800 text-lg font-bold p-1 rounded-full focus:outline-none';
-                removeButton.textContent = '×';
-                removeButton.onclick = (event) => {
-                    event.currentTarget.closest('.scorer-entry').remove();
-                    updateRemoveButtonsVisibility();
-                };
+                for (let i = 0; i < count; i++) {
+                    const scorerEntryDiv = document.createElement('div');
+                    scorerEntryDiv.className = 'scorer-entry flex items-center space-x-2';
 
-                scorerEntryDiv.appendChild(newScorerSelect);
-                scorerEntryDiv.appendChild(removeButton);
-                scorerInputArea.insertBefore(scorerEntryDiv, addScorerButton);
-
-                updateRemoveButtonsVisibility();
-            };
-
-            // 削除ボタンの表示/非表示を更新する関数
-            const updateRemoveButtonsVisibility = () => {
-                const scorerEntries = document.querySelectorAll('.scorer-entry');
-                scorerEntries.forEach(entry => {
-                    const removeButton = entry.querySelector('.remove-scorer-button');
-                    if (scorerEntries.length > 1) {
-                        removeButton.classList.remove('hidden');
-                    } else {
-                        removeButton.classList.add('hidden');
+                    const newScorerSelect = document.createElement('select');
+                    newScorerSelect.className = 'scorer-select form-select flex-grow p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400';
+                    populatePlayerDropdownsForSingleSelect(newScorerSelect);
+                    
+                    // 既存の得点者がいればセット
+                    if (currentScorers[i]) {
+                        newScorerSelect.value = currentScorers[i];
                     }
-                });
+
+                    scorerEntryDiv.appendChild(newScorerSelect);
+                    scorerInputArea.appendChild(scorerEntryDiv);
+                }
+
+                // プレースホルダーを再追加 (隠れている場合は表示されない)
+                scorerInputArea.appendChild(scorerPlaceholder);
             };
 
             // 試合結果リストをレンダリングする関数
@@ -307,10 +277,10 @@
                     const row = document.createElement('tr');
                     let resultText = '';
                     let resultColor = '';
-                    if (match.result === 'win') {
+                    if (match.pb_score > match.opponent_score) { // 修正: 得点に基づいて勝敗を決定
                         resultText = '勝ち';
                         resultColor = 'text-green-600 font-bold';
-                    } else if (match.result === 'lose') {
+                    } else if (match.pb_score < match.opponent_score) { // 修正: 得点に基づいて勝敗を決定
                         resultText = '負け';
                         resultColor = 'text-red-600 font-bold';
                     } else {
@@ -318,7 +288,7 @@
                         resultColor = 'text-gray-600 font-bold';
                     }
 
-                    const scorersText = match.scorers.length > 0 ? match.scorers.join(', ') : 'なし';
+                    const scorersText = match.scorers && match.scorers.length > 0 ? match.scorers.join(', ') : 'なし'; // nullチェックを追加
 
                     let matchTypeText = '';
                     if (match.match_type === 'league') {
@@ -374,27 +344,19 @@
                 editingMatchIdInput.value = matchId;
 
                 matchDateInput.value = matchToEdit.date;
-                opponentTeamSelect.value = matchToEdit.opponent; // Select要素に値をセット
+                opponentTeamSelect.value = matchToEdit.opponent;
                 matchTypeSelect.value = matchToEdit.match_type;
                 pbScoreInput.value = matchToEdit.pb_score;
                 opponentScoreInput.value = matchToEdit.opponent_score;
 
-                scorerInputArea.innerHTML = '';
-                matchToEdit.scorers.forEach((scorer) => {
-                    addScorerDropdown(scorer);
-                });
-                if (matchToEdit.scorers.length === 0) {
-                    addScorerDropdown();
-                }
-                scorerInputArea.appendChild(addScorerButton);
-                updateRemoveButtonsVisibility();
+                // 得点者プルダウンを再生成し、既存の得点者をセット
+                updateScorerDropdowns(matchToEdit.pb_score, matchToEdit.scorers);
 
                 matchInputForm.scrollIntoView({ behavior: 'smooth' });
             };
 
             // 試合を削除する関数
             const deleteMatch = (matchId) => {
-                // カスタムモーダルの代わりに簡易的な確認を使用
                 const confirmDelete = confirm('この試合結果を本当に削除しますか？');
                 if (confirmDelete) {
                     matches = matches.filter(match => match.id !== matchId);
@@ -412,16 +374,15 @@
                 submitButton.textContent = '試合結果を登録';
                 editingMatchIdInput.value = '';
 
-                scorerInputArea.innerHTML = '';
-                addScorerDropdown();
-                scorerInputArea.appendChild(addScorerButton);
-                updateRemoveButtonsVisibility();
-
+                // 得点者入力欄を初期状態に戻す
+                updateScorerDropdowns(0); // 得点0で初期化
+                scorerPlaceholder.classList.remove('hidden'); // プレースホルダーを表示
+                
                 matchDateInput.valueAsDate = new Date();
                 pbScoreInput.value = 0;
                 opponentScoreInput.value = 0;
-                opponentTeamSelect.value = ""; // 対戦チーム選択もリセット
-                matchTypeSelect.value = ""; // 試合種類選択もリセット
+                opponentTeamSelect.value = "";
+                matchTypeSelect.value = "";
             };
 
             // 年度フィルターを更新する関数
@@ -439,7 +400,7 @@
                 });
                 const currentFilter = localStorage.getItem('pb_palterge_current_year_filter');
                 if (currentFilter && Array.from(years).includes(currentFilter)) {
-                     yearFilterSelect.value = currentFilter;
+                    yearFilterSelect.value = currentFilter;
                 } else if (years.size > 0) {
                     yearFilterSelect.value = Array.from(years).sort((a, b) => parseInt(b) - parseInt(a))[0];
                 } else {
@@ -465,7 +426,14 @@
                     if (!winRates[match.opponent]) {
                         winRates[match.opponent] = { win: 0, lose: 0, draw: 0, total: 0 };
                     }
-                    winRates[match.opponent][match.result]++;
+                    // match.resultプロパティが存在しない可能性があるため、ここで計算する
+                    if (match.pb_score > match.opponent_score) {
+                        winRates[match.opponent].win++;
+                    } else if (match.pb_score < match.opponent_score) {
+                        winRates[match.opponent].lose++;
+                    } else {
+                        winRates[match.opponent].draw++;
+                    }
                     winRates[match.opponent].total++;
                 });
 
@@ -488,9 +456,11 @@
                 // 得点者ランキングの計算と表示
                 const scorerCounts = {};
                 filteredStatsMatches.forEach(match => {
-                    match.scorers.forEach(scorer => {
-                        scorerCounts[scorer] = (scorerCounts[scorer] || 0) + 1;
-                    });
+                    if (match.scorers) { // nullチェックを追加
+                        match.scorers.forEach(scorer => {
+                            scorerCounts[scorer] = (scorerCounts[scorer] || 0) + 1;
+                        });
+                    }
                 });
 
                 scorerRankingsTableBody.innerHTML = '';
@@ -515,8 +485,8 @@
             // アプリケーションの初期化関数
             const initApp = () => {
                 loadData();
-                populateOpponentDropdown(); // 対戦チームプルダウンを初期化
-                addScorerDropdown();
+                populateOpponentDropdown();
+                updateScorerDropdowns(0); // 初期は得点者入力欄を非表示
                 populateYearFilter();
                 renderMatchList();
                 renderStats();
@@ -525,24 +495,30 @@
 
             // イベントリスナーの設定
 
+            // P.Bパルタージェの得点入力が変更されたときに得点者プルダウンを更新
+            pbScoreInput.addEventListener('input', () => {
+                const score = parseInt(pbScoreInput.value);
+                updateScorerDropdowns(score);
+            });
+
             matchInputForm.addEventListener('submit', (event) => {
                 event.preventDefault();
 
                 const date = matchDateInput.value;
-                const opponent = opponentTeamSelect.value; // Selectから値を取得
+                const opponent = opponentTeamSelect.value;
                 const matchType = matchTypeSelect.value;
                 const pbScore = parseInt(pbScoreInput.value);
                 const opponentScore = parseInt(opponentScoreInput.value);
                 const selectedScorers = Array.from(document.querySelectorAll('.scorer-select'))
-                                            .map(select => select.value)
-                                            .filter(value => value !== '');
+                                                .map(select => select.value)
+                                                .filter(value => value !== '');
 
                 if (!date || !opponent || !matchType || isNaN(pbScore) || isNaN(opponentScore)) {
-                    // 本来はカスタムモーダルを使用すべきですが、今回はalertで簡易化
                     alert('すべての必須項目を正しく入力してください。');
                     return;
                 }
 
+                // 勝敗は得点差から自動的に判断
                 let result;
                 if (pbScore > opponentScore) {
                     result = 'win';
@@ -564,7 +540,7 @@
                             match_type: matchType,
                             pb_score: pbScore,
                             opponent_score: opponentScore,
-                            result: result,
+                            result: result, // resultプロパティを更新
                             scorers: selectedScorers
                         };
                     }
@@ -576,7 +552,7 @@
                         match_type: matchType,
                         pb_score: pbScore,
                         opponent_score: opponentScore,
-                        result: result,
+                        result: result, // resultプロパティを設定
                         scorers: selectedScorers
                     };
                     matches.push(newMatch);
@@ -589,17 +565,13 @@
                 clearForm();
             });
 
-            addScorerButton.addEventListener('click', () => {
-                addScorerDropdown();
-            });
-
             yearFilterSelect.addEventListener('change', () => {
                 localStorage.setItem('pb_palterge_current_year_filter', yearFilterSelect.value);
                 renderMatchList();
             });
 
             statsMatchTypeFilter.addEventListener('change', () => {
-                renderStats(); // 統計情報を種類フィルターに基づいて再レンダリング
+                renderStats();
             });
 
             clearFormButton.addEventListener('click', clearForm);
